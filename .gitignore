@@ -1,0 +1,3 @@
+# ignore all __pychache folder
+chap02/__pycache__/
+chap03/__pycache__/
