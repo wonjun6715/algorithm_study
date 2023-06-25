@@ -10,5 +10,5 @@ for i in range(n):
     if r == 13:
         print('\n프로그램을 중단합니다.')
         break
-else: 
-    print('\n난수 생성을 종료합니다.')
+else:  # for-else문 
+    print('\n난수 생성을 종료합니다.') # 스위트 : break 문이 실행되지 않았을 때만 실행됨
