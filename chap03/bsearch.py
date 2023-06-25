@@ -7,17 +7,17 @@ def bin_search(a: Sequence, key: Any) -> int:
     pr = len(a) - 1
     
     while True:
-        pc = (pl + pr) // 2
+        pc = (pl + pr) // 2 # 중앙 원소의 인덱스
         
-        if a[pc] == key:
+        if a[pc] == key: # 검색 성공한 경우
             return pc
-        elif a[pc] < key:
+        elif a[pc] < key: # 검색 범위를 뒤쪽 절반으로 좁힘
             pl = pc + 1
         else:
-            pr = pc - 1
+            pr = pc - 1 # 검색 범위를 앞쪽 절반으로 좁힘
         if pl > pr:
             break
-    return -1 # 탐색 실패
+    return -1 # 검색 실패
 
 if __name__ == '__main__':
     num = int(input('원소 수를 입력하세요.: '))
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     print('배열 데이터를 오름차순으로 입력하세요.')
     x = [None] * num
     
-    x[0] = int(input('x[0]: '))
+    x[0] = int(input('x[0]: ')) # 무조건 원소가 하나는 있어야 함
     
     for i in range(1, num):
         while True:
