@@ -1,3 +1,4 @@
+# seq_search() 함수를 사용하여 특정 인덱스 검사하기
 from ssearch_while import seq_search
 
 t = (4, 7, 5.6, 2, 3.14, 1)
