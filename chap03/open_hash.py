@@ -1,7 +1,7 @@
 # 오픈 주소법으로 해시 함수 구현하기
 
 from __future__ import annotations
-from typing import Sequence, Any
+from typing import Any, Type
 from enum import Enum
 import hashlib
 
@@ -33,7 +33,7 @@ class Bucket:
 class OpenHash:
     """오픈 주소법으로 구현하는 해시 클래스"""
     
-    def __init___(self, capacity: int) -> None:
+    def __init__(self, capacity: int) -> None:
         """초기화"""
         self.capacity = capacity  # 해시 테이블의 크기를 지정
         self.table = [Bucket()] * self.capacity #  해시 테이블
@@ -47,8 +47,9 @@ class OpenHash:
     def rehash_value(self, key: Any) -> int:
         """재해시값을 구함"""
         return(self.hash_value(key) + 1) % self.capacity 
-        """self.capacity 나머지 연산을 한번 더 해주는 이유는 만약 기존의 해시값이 마지막 버킷을 가리키고 있다면
-        나머지 연산을 통해 다시 첫번째 버킷을 가리키게 하기 위함"""
+        # self.capacity 나머지 연산을 한번 더 해주는 이유는 만약 기존의 해시값이 마지막 버킷을 가리키고 있다면
+        # 나머지 연산을 통해 다시 첫번째 버킷을 가리키게 하기 위함
+       
     
     def search_node(self, key: Any) -> Any:
         """키가 key인 버킷을 검색"""
@@ -60,7 +61,7 @@ class OpenHash:
                 break
             elif p.stat == Status.OCCUPIED and p.key == key:
                 return p
-            hash = self.rehash_value(key)
+            hash = self.rehash_value(hash) # 재해시
             p = self.table[hash]
         
         return None
@@ -85,7 +86,7 @@ class OpenHash:
             if p.stat == Status.EMPTY or p.stat == Status.DELETED:
                 self.table[hash] = Bucket(key, value, Status.OCCUPIED)
                 return True
-            hash = self.rehash_value(key) # 재해시
+            hash = self.rehash_value(hash) # 재해시
             p = self.table[hash]
         return False # 해시 테이블이 가득 참
     
