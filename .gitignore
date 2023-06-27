@@ -1,3 +1,6 @@
 # ignore all __pychache folder
 chap02/__pycache__/
 chap03/__pycache__/
+
+# ignore test용 코드 파일
+test.py
