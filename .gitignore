@@ -4,3 +4,6 @@ chap03/__pycache__/
 
 # ignore test용 코드 파일
 test.py
+
+# ignore readme image file
+chain.png
