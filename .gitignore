@@ -2,6 +2,7 @@
 chap02/__pycache__/
 chap03/__pycache__/
 chap04/__pycache__/
+**/__pycache__
 
 # ignore test용 코드 파일
 test.py
