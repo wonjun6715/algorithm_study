@@ -18,7 +18,6 @@ def heap_sort(a: MutableSequence) -> None:
                 break
             a[parent] = a[child]
             parent = child
-            print('#')
         a[parent] = temp
     
     n = len(a)
