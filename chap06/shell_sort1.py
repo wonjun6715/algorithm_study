@@ -8,7 +8,7 @@ def shell_sort(a: MutableSequence) -> None:
     h = n // 2
     while h > 0:
         for i in range(h, n):
-            j = i - h
+            j = i - h 
             tmp = a[i]
             while j >= 0 and a[j] > tmp:
                 a[j + h] = a[j]
