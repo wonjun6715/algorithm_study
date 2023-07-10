@@ -21,7 +21,7 @@ def merge_sort(a: MutableSequence) -> None:
                 p += 1
                 i += 1
             
-            while i <= right and j < p:
+            while j < p and i <= right:
                 if buff[j] <= a[i]:
                     a[k] = buff[j]
                     j += 1
