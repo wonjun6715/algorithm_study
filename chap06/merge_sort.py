@@ -19,7 +19,7 @@ def merge_sort(a: MutableSequence) -> None:
             while i <= center:
                 buff[p] = a[i]
                 p += 1
-                i += 1
+                i += 1 # while문을 종료할 때 p값은 복사한 원소 수인 center - left + 1이 됨
                 
             while i <= right and j < p:
                 if buff[j] <= a[i]:
