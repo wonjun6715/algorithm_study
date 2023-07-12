@@ -11,7 +11,7 @@ class Node:
         self.data = data # 데이터
         self.next = next # 뒤쪽 포인터
         
-class LinkdeList:
+class LinkedList:
     """연결 리스트 클래스"""
     
     def __init__(self) -> None:
