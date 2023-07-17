@@ -13,135 +13,135 @@ class Node:
         self.prev = prev or self # 앞쪽 포인터, prev가 참이면(None이 아니면) self.prev에 prev를 대입, 거짓이면 self를 대입
         self.next = next or self # 뒤쪽 포인터, next가 참이면(None이 아니면) self.next에 next를 대입, 거짓이면 self를 대입
         
-    class DoubleLinkedList:
-        """원형 이중 연결 리스트 클래스"""
+class DoubleLinkedList:
+    """원형 이중 연결 리스트 클래스"""
         
-        def __init__(self) -> None:
-            """초기화"""
-            self.head = self.current = Node()
-            self.no = 0
+    def __init__(self) -> None:
+        """초기화"""
+        self.head = self.current = Node()
+        self.no = 0
             
-        def __len__(self) -> int:
-            """연결 리스트의 노드 수를 반환"""
-            return self.no
+    def __len__(self) -> int:
+        """연결 리스트의 노드 수를 반환"""
+        return self.no
         
-        def is_empty(self) -> bool:
-            """리스트가 비었는지 확인"""
-            return self.head.next is self.head
+    def is_empty(self) -> bool:
+        """리스트가 비었는지 확인"""
+        return self.head.next is self.head
+    
+    def search(self, data: Any) -> Any:
+        """data와 값이 같은 노드를 검색"""
+        cnt = 0
+        ptr = self.head.next
+        while ptr is not self.head:
+            if data == ptr.data:
+                self.current = ptr
+                return cnt # 검색 성공
+            cnt += 1
+            ptr = ptr.next
+        return -1
+    
+    def __contains__(self, data: Any) -> bool:
+        """연결 리스트에 data가 포함되어 있는지 판단"""
+        return self.search(data) >= 0
+    
+    def print_current_node(self) -> None:
+        """주목 노드를 출력"""
+        if self.is_empty():
+            print('주목 노드는 없습니다.')
+        else:
+            print(self.current.data)
+            
+    def print(self) -> None:
+        """모든 노드를 출력"""
+        ptr = self.head.next
+        while ptr is not self.head:
+            print(ptr.data)
+            ptr = ptr.next
+            
+    def print_reverse(self) -> None:
+        """모든 노드를 역순으로 출력"""
+        ptr = self.head.prev
+        while ptr is not self.head:
+            print(ptr.data)
+            ptr = ptr.prev
+            
+    def next(self) -> bool:
+        """주목 노드를 한 칸 뒤로 이동"""
+        if self.is_empty() or self.current.next is self.head:
+            return False
+        self.current = self.current.next
+        return True
         
-        def search(self, data: Any) -> Any:
-            """data와 값이 같은 노드를 검색"""
-            cnt = 0
-            ptr = self.head.next
-            while ptr is not self.head:
-                if data == ptr.data:
-                    self.current = ptr
-                    return cnt # 검색 성공
-                cnt += 1
-                ptr = ptr.next
-            return -1
+    def prev(self) -> bool:
+        """주목 노드를 한 칸 앞으로 이동"""
+        if self.is_empty() or self.current.prev is self.head:
+            return False
+        self.current = self.current.prev
+        return True
+    
+    def add(self, data: Any) -> None:
+        """주목 노드 바로 뒤에 노드를 삽입"""
+        node = Node(data, self.current, self.current.next)
+        self.current.next.prev = node
+        self.current.next = node
+        self.current = node
+        self.no += 1
+    
+    def add_first(self, data: Any) -> None:
+        """맨 앞에 노드를 삽입"""
+        self.current = self.head
+        self.add(data)
         
-        def __contains__(self, data: Any) -> bool:
-            """연결 리스트에 data가 포함되어 있는지 판단"""
-            return self.search(data) >= 0
+    def add_last(self, data: Any) -> None:
+        """맨 뒤에 노드를 삽입"""
+        self.current = self.head.prev
+        self.add(data)
         
-        def print_current_node(self) -> None:
-            """주목 노드를 출력"""
-            if self.is_empty():
-                print('주목 노드는 없습니다.')
-            else:
-                print(self.current.data)
-                
-        def print(self) -> None:
-            """모든 노드를 출력"""
-            ptr = self.head.next
-            while ptr is not self.head:
-                print(ptr.data)
-                ptr = ptr.next
-                
-        def print_reverse(self) -> None:
-            """모든 노드를 역순으로 출력"""
-            ptr = self.head.prev
-            while ptr is not self.head:
-                print(ptr.data)
-                ptr = ptr.prev
-                
-        def next(self) -> bool:
-            """주목 노드를 한 칸 뒤로 이동"""
-            if self.is_empty() or self.current.next is self.head:
-                return False
-            self.current = self.current.next
-            return True
-        
-        def prev(self) -> bool:
-            """주목 노드를 한 칸 앞으로 이동"""
-            if self.is_empty() or self.current.prev is self.head:
-                return False
+    def remove_current_node(self) -> None:
+        """주목 노드 삭제"""
+        if not self.is_empty():
+            self.current.prev.next = self.current.next
+            self.current.next.prev = self.current.prev
             self.current = self.current.prev
-            return True
+            self.no -= 1
+            if self.current is self.head:
+                self.current = self.head.next
+                
+    def remove(self, p: Node) -> None:
+        """노드 p를 삭제"""
+        ptr = self.head.next
         
-        def add(self, data: Any) -> None:
-            """주목 노드 바로 뒤에 노드를 삽입"""
-            node = Node(data, self.current, self.current.next)
-            self.current.next.prev = node
-            self.current.next = node
-            self.current = node
-            self.no += 1
+        while ptr.next is not self.head:
+            if ptr is p: # p를 발견
+                self.current = p
+                self.remove_current_node()
+                break
+            ptr = ptr.next
+    
+    def remove_first(self) -> None:
+        """머리 노드 삭제"""
+        self.current = self.head.next # 머리 노드 head.next를 삭제
+        self.remove_current_node()
         
-        def add_first(self, data: Any) -> None:
-            """맨 앞에 노드를 삽입"""
-            self.current = self.head
-            self.add(data)
-            
-        def add_last(self, data: Any) -> None:
-            """맨 뒤에 노드를 삽입"""
-            self.current = self.head.prev
-            self.add(data)
-            
-        def remove_current_node(self) -> None:
-            """주목 노드 삭제"""
-            if not self.is_empty():
-                self.current.prev.next = self.current.next
-                self.current.next.prev = self.current.prev
-                self.current = self.current.prev
-                self.no -= 1
-                if self.current is self.head:
-                    self.current = self.head.next
-                    
-        def remove(self, p: Node) -> None:
-            """노드 p를 삭제"""
-            ptr = self.head.next
-            
-            while ptr.next is not self.head:
-                if ptr is p: # p를 발견
-                    self.current = p
-                    self.remove_current_node()
-                    break
-                ptr = ptr.next
+    def remove_last(self) -> None:
+        """꼬리 노드 삭제"""
+        self.current = self.head.prev # 꼬리 노드 head.next.prev를 삭제
+        self.remove_current_node()
         
-        def remove_first(self) -> None:
-            """머리 노드 삭제"""
-            self.current = self.head.next # 머리 노드 head.next를 삭제
-            self.remove_current_node()
-            
-        def remove_last(self) -> None:
-            """꼬리 노드 삭제"""
-            self.current = self.head.prev # 꼬리 노드 head.next.prev를 삭제
-            self.remove_current_node()
-            
-        def clear(self) -> None:
-            """모든 노드를 삭제"""
-            while not self.is_empty(): # 리스트 전체가 빌 때까지
-                self.remove_first() # 머리 노드를 삭제
-            self.no = 0
-            
-        def __iter__(self) -> DoubleLinkedListIterator:
-            """이터레이터를 반환"""
-            return DoubleLinkedListIterator(self.head)
+    def clear(self) -> None:
+        """모든 노드를 삭제"""
+        while not self.is_empty(): # 리스트 전체가 빌 때까지
+            self.remove_first() # 머리 노드를 삭제
+        self.no = 0
         
-        def __reversed__(self) -> DoubleLinkedListIterator:
-            """내림차순 이터레이터를 반환"""
-            return DoubleLinkedListReverseIterator(self.head)
+    def __iter__(self) -> DoubleLinkedListIterator:
+        """이터레이터를 반환"""
+        return DoubleLinkedListIterator(self.head)
+    
+    def __reversed__(self) -> DoubleLinkedListIterator:
+        """내림차순 이터레이터를 반환"""
+        return DoubleLinkedListReverseIterator(self.head)
         
 class DoubleLinkedListIterator:
     """DoubleLinkedList의 이터레이터용 클래스"""
