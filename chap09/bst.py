@@ -53,7 +53,7 @@ class BinarySearchTree:
             return True
             
         if self.root is None:
-            self.root = None(key, value, None, None)
+            self.root = Node(key, value, None, None)
             return True
         else:
             return add_node(self.root, key, value)
@@ -129,7 +129,7 @@ class BinarySearchTree:
         p = self.root
         while p.left is not None:
             p = p.left
-            return p.key
+        return p.key
         
     def max_key(self) -> Any:
         """가장 큰 키"""
